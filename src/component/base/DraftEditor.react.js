@@ -315,7 +315,7 @@ class DraftEditor extends React.Component {
      * ie9-beta-minor-change-list.aspx
      */
     if (isIE) {
-      document.execCommand('AutoUrlDetect', false, false);
+      ReactDOM.findDOMNode(this.refs.editor).ownerDocument.execCommand('AutoUrlDetect', false, false);
     }
   }
 
@@ -353,14 +353,15 @@ class DraftEditor extends React.Component {
 
     const scrollParent = Style.getScrollParent(editorNode);
     const {x, y} = scrollPosition || getScrollPosition(scrollParent);
+    const {defaultView} = editorNode.ownerDocument;
 
     invariant(
       editorNode instanceof HTMLElement,
       'editorNode is not an HTMLElement',
     );
     editorNode.focus();
-    if (scrollParent === window) {
-      window.scrollTo(x, y);
+    if (scrollParent === defaultView) {
+      defaultView.scrollTo(x, y);
     } else {
       Scroll.setTop(scrollParent, y);
     }

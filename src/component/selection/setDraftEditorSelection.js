@@ -91,14 +91,17 @@ function setDraftEditorSelection(
   nodeStart: number,
   nodeEnd: number,
 ): void {
+
+  var ownerDocument = node.ownerDocument;
+
   // It's possible that the editor has been removed from the DOM but
   // our selection code doesn't know it yet. Forcing selection in
   // this case may lead to errors, so just bail now.
-  if (!containsNode(document.documentElement, node)) {
+  if (!containsNode(ownerDocument.documentElement, node)) {
     return;
   }
 
-  var selection = global.getSelection();
+  var selection = ownerDocument.defaultView.getSelection();
   var anchorKey = selectionState.getAnchorKey();
   var anchorOffset = selectionState.getAnchorOffset();
   var focusKey = selectionState.getFocusKey();
@@ -218,7 +221,7 @@ function addFocusToSelection(
   offset: number,
   selectionState: SelectionState,
 ): void {
-  if (selection.extend && containsNode(getActiveElement(), node)) {
+  if (selection.extend && containsNode(getActiveElement(node.ownerDocument), node)) {
     // If `extend` is called while another element has focus, an error is
     // thrown. We therefore disable `extend` if the active element is somewhere
     // other than the node we are selecting. This should only occur in Firefox,
@@ -266,7 +269,7 @@ function addPointToSelection(
   offset: number,
   selectionState: SelectionState,
 ): void {
-  var range = document.createRange();
+  var range = node.ownerDocument.createRange();
   // logging to catch bug that is being reported in t16250795
   if (offset > getNodeLength(node)) {
     // in this case we know that the call to 'range.setStart' is about to throw
