@@ -30,7 +30,7 @@ function editOnSelect(editor: DraftEditor): void {
   const editorNode = ReactDOM.findDOMNode(editor.refs.editorContainer);
   invariant(editorNode, 'Missing editorNode');
   invariant(
-    editorNode.firstChild instanceof HTMLElement,
+    editorNode.firstChild.contentEditable !== undefined,
     'editorNode.firstChild is not an HTMLElement',
   );
   var documentSelection = getDraftEditorSelection(

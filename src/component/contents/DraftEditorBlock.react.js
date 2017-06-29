@@ -114,7 +114,7 @@ class DraftEditorBlock extends React.Component {
       }
     } else {
       invariant(
-        blockNode instanceof HTMLElement,
+        blockNode.contentEditable !== undefined,
         'blockNode is not an HTMLElement',
       );
       var blockBottom = blockNode.offsetHeight + blockNode.offsetTop;

@@ -234,7 +234,7 @@ function processInlineTag(
   var win = node.ownerDocument.defaultView || window;
   if (styleToCheck) {
     currentStyle = currentStyle.add(styleToCheck).toOrderedSet();
-  } else if (node instanceof win.HTMLElement) {
+  } else if (node.contentEditable !== undefined) {
     const htmlElement = node;
     currentStyle = currentStyle.withMutations(style => {
       const fontWeight = htmlElement.style.fontWeight;
@@ -320,7 +320,7 @@ function containsSemanticBlockMarkup(
 function hasValidLinkText(link: Node): boolean {
   const win = link.ownerDocument.defaultView || window;
   invariant(
-    link instanceof win.HTMLAnchorElement,
+    link.nodeName === "A",
     'Link must be an HTMLAnchorElement.',
   );
   var protocol = link.protocol;
@@ -395,7 +395,6 @@ function genFragment(
   // IMG tags
   if (
     nodeName === 'img' &&
-    node instanceof win.HTMLImageElement &&
     node.attributes.getNamedItem('src') &&
     node.attributes.getNamedItem('src').value
   ) {
@@ -463,7 +462,7 @@ function genFragment(
 
   while (child) {
     if (
-      child instanceof win.HTMLAnchorElement &&
+      child.nodeName === "A" &&
       child.href &&
       hasValidLinkText(child)
     ) {

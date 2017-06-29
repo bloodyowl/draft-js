@@ -28,7 +28,7 @@ function editOnBlur(editor: DraftEditor, e: SyntheticEvent): void {
   // issue to be certain, checking whether the active element is `body`
   // to force it when blurring occurs within the window (as opposed to
   // clicking to another tab or window).
-  var doc = e.target && e.target.ownerDocument instanceof Document ?
+  var doc = e.target && e.target.ownerDocument.nodeType === 9 ?
       e.target.ownerDocument :
       document;
   var activeElement = getActiveElement(doc);

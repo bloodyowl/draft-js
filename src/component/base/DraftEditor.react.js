@@ -356,7 +356,7 @@ class DraftEditor extends React.Component {
     const {defaultView} = editorNode.ownerDocument;
 
     invariant(
-      editorNode instanceof HTMLElement,
+      editorNode.contentEditable !== undefined,
       'editorNode is not an HTMLElement',
     );
     editorNode.focus();
@@ -383,7 +383,7 @@ class DraftEditor extends React.Component {
   _blur(): void {
     const editorNode = ReactDOM.findDOMNode(this.refs.editor);
     invariant(
-      editorNode instanceof HTMLElement,
+      editorNode.contentEditable !== undefined,
       'editorNode is not an HTMLElement',
     );
     editorNode.blur();
